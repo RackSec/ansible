@@ -7,4 +7,5 @@ jinja2
 PyYAML
 paramiko
 pycrypto >= 2.6
+retrying
 setuptools
