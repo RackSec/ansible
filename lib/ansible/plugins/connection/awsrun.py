@@ -1,5 +1,4 @@
-# (c) 2016, Fran Fitzpatrick <francis.x.fitzpatrick@gmail.com>
-# (c) 2017, Rackspace Managed Security
+# (c) 2016-2017, Rackspace Managed Security
 #
 # This file is part of Ansible
 #
@@ -18,7 +17,7 @@
 '''
 DOCUMENTATION:
     connection: awsrun
-    short_description: connect via AWS Run Command
+    short_description: Run ansible tasks over EC2's Run Command
     description:
         - This connection plugin allows ansible to communicate to an EC2 Instance using Run Command.
         - AWS Run Command itself has the following limitations and [prerequisites](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/remote-commands-prereq.html), so an instance must adhere to these restrictions:
@@ -27,7 +26,7 @@ DOCUMENTATION:
             - Proper IAM Roles/Permissions must be [configured](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssm-iam.html)
             - The EC2 instances must have outbound Internet access (although AWS documentation does not specify *exactly* where the agent needs access to)
     author: Rackspace Managed Security
-    version_added: 2.x  # XXX: Update me.
+    version_added: 2.4
     options:
         Host:
             description: When using this transport, the host is the instance ID (not an IP address).
@@ -52,7 +51,9 @@ DOCUMENTATION:
         S3 Output Bucket:
             description:
                 - S3 bucket for where to save results
-                - Used to temporarily store command output. Without using S3, command output is truncated at 2500 characters and Ansible does a horrible death.
+                - Used to temporarily store command output. Without using S3, command output is truncated at 2500 characters and Ansible dies a horrible death.
+                - AWSRun will attempt to clean up any output stored in S3, but in case there are any problems, it is suggested to configure a lifecycle
+                  on the S3 bucket so old output is cleaned up quickly.
 '''
 from __future__ import absolute_import, division, print_function
 
