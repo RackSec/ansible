@@ -19,14 +19,13 @@ DOCUMENTATION:
     connection: awsrun
     short_description: Run ansible tasks over EC2's Run Command
     description:
-        - This connection plugin allows ansible to communicate to an EC2 Instance using Run Command.
-        - AWS Run Command itself has the following limitations and [prerequisites](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/remote-commands-prereq.html), so an instance must adhere to these restrictions:
-            - Run Command is only available in the SSM [regions](http://docs.aws.amazon.com/general/latest/gr/rande.html#ssm_region)
-            - Instances must be running the latest version of the SSM [agent](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-ssm-agent.html)
-            - Proper IAM Roles/Permissions must be [configured](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssm-iam.html)
-            - The EC2 instances must have outbound Internet access (although AWS documentation does not specify *exactly* where the agent needs access to)
+        - This connection plugin allows Ansible to communicate to an EC2 Instance using Run Command.
+        - EC2's Run Command itself has the following limitations and [prerequisites](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/remote-commands-prereq.html), so an instance must adhere to these restrictions.
+        - Run Command is only available in the SSM [regions](http://docs.aws.amazon.com/general/latest/gr/rande.html#ssm_region)
+        - Instances must be running the latest version of the SSM [agent](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/install-ssm-agent.html)
+        - Proper IAM Roles/Permissions must be [configured](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssm-iam.html)
+        - The EC2 instances must have outbound Internet access (although AWS documentation does not specify *exactly* where the agent needs access to)
     author: Rackspace Managed Security
-    version_added: 2.4
     options:
         Host:
             description: When using this transport, the host is the instance ID (not an IP address).
@@ -41,7 +40,7 @@ DOCUMENTATION:
             host_vars:
                - aws_secret_access_key
         AWS Session Token:
-            description: OPTIONAL: For use with temporary security credentials
+            description: For use with temporary security credentials
             host_vars:
                 - aws_session_token
         AWS Region Name:
@@ -54,6 +53,8 @@ DOCUMENTATION:
                 - Used to temporarily store command output. Without using S3, command output is truncated at 2500 characters and Ansible dies a horrible death.
                 - AWSRun will attempt to clean up any output stored in S3, but in case there are any problems, it is suggested to configure a lifecycle
                   on the S3 bucket so old output is cleaned up quickly.
+            host_vars:
+                - s3_output_bucket
 '''
 from __future__ import absolute_import, division, print_function
 
